@@ -1,0 +1,40 @@
+base:
+  random_state: 42
+  log_level: INFO
+
+
+data_load:
+  dataset_csv: 'data/ElectionData.csv'
+  dataset_prepare: 'data/processed/ElectionData_prepared.csv'
+
+
+featurize:
+  features_path: 'data/processed/ElectionData_featured.csv'
+  cols_to_drop: ['time']
+  corr_vars1: ['totalMandates','numParishesApproved','blankVotes','nullVotes','subscribedVoters','totalVoters','pre.blankVotes','pre.nullVotes','pre.subscribedVoters','pre.totalVoters','Percentage','Mandates','pre.blankVotesPercentage','pre.votersPercentage']
+  corr_vars2: ['Votes','Hondt']
+  categorical_vars: ['territoryName', 'Party']
+
+
+data_split:
+  test_size: 0.3
+  trainset_path: 'data/processed/train_Elections.csv'
+  testset_path: 'data/processed/test_Elections.csv'
+
+
+train:
+  target_column: FinalMandates
+  estimator_name: RandomForestRegressor
+  estimators:
+    RandomForestRegressor:
+      n_estimators: 300
+      max_depth: 10
+      max_features: 10
+      min_samples_leaf: 4
+  model_path: models/model.joblib
+
+
+evaluate:
+  reports_dir: reports
+  metrics_file: 'metrics.json'
+  confusion_matrix_image: 'confusion_matrix.png'

@@ -1,0 +1,119 @@
+stages:
+  data_prepare:
+    cmd: python -m src.stages.data_prepare.py --config=params.yml
+    deps:
+    - src/stages/data_prepare.py
+    params:
+    - base
+    - data_load
+    outs:
+    - data/processed/ElectionData_prepared.csv
+
+  featurize:
+    cmd: python -m src.stages.featurize --config=params.yaml
+    deps:
+    - data/processed/ElectionData_prepared.csv
+    - src/stages/featurize.py
+    params:
+    - base
+    - data_load
+    - featurize
+    outs:
+    - data/processed/ElectionData_featured.csv
+
+  data_split:
+    cmd: python -m src.stages.data_split --config=params.yaml
+    deps:
+    - data/processed/ElectionData_featured.csv
+    - src/stages/data_split.py
+    params:
+    - base
+    - data_load
+    - featurize
+    - data_split
+    outs:
+    - data/processed/test_Elections.csv
+    - data/processed/train_Elections.csv
+
+  evaluate:
+    cmd: python -m src.stages.evaluate --config=params.yaml
+    deps:
+    - data/processed/test_Elections.csv
+    - models/model.joblib
+    - src/stages/evaluate.py
+    params:
+    - base
+    - data_split.testset_path
+    - evaluate
+    - featurize.target_column
+    #outs:
+    #- reports/confusion_matrix.png
+    metrics:
+    - reports/metrics.json:
+        cache: false
+
+  #artifacts:
+  #  penguins_classifier:
+  #    path: models/model.joblib
+  #    type: model
+  #    desc: This is a penguins classifier.
+  #    labels:
+  #    - cv
+  #    - classification
+  #  penguins-demo-live:
+  #    path: models/model.joblib
+  #    type: model
+
+
+#metrics:
+#- dvclive/metrics.json
+
+
+#plots:
+#- dvclive/plots/metrics:
+#    x: step
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+stages:
+  load_data:
+    cmd: python preprocessing1.py ../data/wine_quality.csv
+    deps:
+      - preprocessing1.py
+      - ../data/wine_quality.csv
+    outs:
+      - ../data/processed/train.csv
+      - ../data/processed/test.csv
+
+  train_model:
+    cmd: python model1.py
+    deps:
+      - model1.py
+      - ../data/processed/train.csv
+    outs:
+      - ../models/model.pkl
+
+  evaluate:
+    cmd: python evaluation1.py
+    deps:
+      - evaluation1.py
+      - ../models/model.pkl
+      - ../data/processed/test.csv
+    outs:
+      - ../metrics/evaluation_metrics.json
