@@ -1,6 +1,6 @@
 stages:
   data_prepare:
-    cmd: python -m src.stages.data_prepare.py --config=params.yml
+    cmd: python -m src.stages.data_prepare --config=params.yml
     deps:
     - src/stages/data_prepare.py
     params:
