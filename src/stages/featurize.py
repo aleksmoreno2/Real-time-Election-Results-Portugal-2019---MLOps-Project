@@ -25,7 +25,7 @@ def featurize(config_path: Text) -> None:
     ####### DROP UNUSED COLUMNS #######
     logger.info('Drop unused columns')
     cols_to_drop = config['featurize']['cols_to_drop']
-    X = dataset.drop(cols_to_drop, axis=1)
+    df = dataset.drop(cols_to_drop, axis=1)
 
     ####### DEFINE CORRELATED FEATURES #######
     logger.info('Proccess correlated features')

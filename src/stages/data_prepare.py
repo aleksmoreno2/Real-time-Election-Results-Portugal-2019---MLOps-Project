@@ -24,7 +24,7 @@ def data_load(config_path: Text) -> None:
     ####### DROP NANS  ####### 
     logger.info('Drop NaNs')
     df = df.dropna(axis=0, how='any')
-    df = df.drop('Unnamed: 0', axis=1)
+    #df = df.drop('Unnamed: 0', axis=1)
 
     ####### SAVE PROCESSED DATA ####### 
     logger.info('Save processed data')

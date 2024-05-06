@@ -35,6 +35,18 @@ stages:
     - data/processed/test_Elections.csv
     - data/processed/train_Elections.csv
 
+  train:
+    cmd: python -m src.stages.train --config=params.yaml
+    deps:
+    - data/processed/train_Elections.csv
+    - src/stages/train.py
+    outs:
+    - models/model.joblib
+    params:
+    - base
+    - data_split.trainset_path
+    - train
+
   evaluate:
     cmd: python -m src.stages.evaluate --config=params.yaml
     deps:
@@ -45,7 +57,7 @@ stages:
     - base
     - data_split.testset_path
     - evaluate
-    - featurize.target_column
+    - train.target_column
     #outs:
     #- reports/confusion_matrix.png
     metrics:

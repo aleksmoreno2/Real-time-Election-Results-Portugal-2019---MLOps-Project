@@ -7,7 +7,7 @@ from sklearn.metrics import confusion_matrix, f1_score, r2_score
 from typing import Text, Dict
 import yaml
 import os
-from dvclive import Live
+#from dvclive import Live
 
 # from src.report.visualize import plot_confusion_matrix
 from src.utils.logs import get_logger
@@ -32,23 +32,13 @@ def evaluate_model(config_path: Text) -> None:
     test_df = pd.read_csv(config['data_split']['testset_path'])
 
     logger.info('Evaluate (build report)')
-    target_column=config['featurize']['target_column']
+    target_column=config['train']['target_column']
     y_test = test_df.loc[:, target_column].values
     X_test = test_df.drop(target_column, axis=1).values
 
-
-    prediction= model.predict(X_test)
-    print('RMSE:',np.sqrt(mean_squared_error(y_test,predictions_rfr3)))
-    print('R2 score:',r2_score(y_test,predictions_rfr3))
-
-
-
-
-
-
     prediction = model.predict(X_test)
-    r2 = r2_score(y_true=y_test, y_pred=prediction, average='macro')
-    f1 = f1_score(y_true=y_test, y_pred=prediction, average='macro')
+    r2 = r2_score(y_true=y_test, y_pred=prediction)
+    f1 = f1_score(y_true=y_test, y_pred=prediction)
     cm = confusion_matrix(prediction, y_test)
     report = {
         'r2': r2,
@@ -74,9 +64,9 @@ def evaluate_model(config_path: Text) -> None:
         fp=open(metrics_path, 'w')
     )
 
-    logger.info(f'Mmtrics file saved to : {metrics_path}')
-    with Live() as live:
-        live.log_metric("eval/r2", report['r2'])
+    logger.info(f'Metrics file saved to : {metrics_path}')
+    #with Live() as live:
+    #    live.log_metric("eval/r2", report['r2'])
 
 
 if __name__ == '__main__':

@@ -4,7 +4,7 @@ import pandas as pd
 from typing import Text
 import yaml
 from sklearn.ensemble import RandomForestRegressor
-from dvclive import Live
+#from dvclive import Live
 
 #from src.train.train import train
 from src.utils.logs import get_logger
@@ -29,7 +29,7 @@ def train_model(config_path: Text) -> None:
     train_df = pd.read_csv(config['data_split']['trainset_path'])
 
     # Split the data into features (X) and target variable (y)
-    target_column = config['featurize']['target_column']
+    target_column = config['train']['target_column']
     X = train_df.drop([target_column], axis=1)
     y = train_df[target_column]
 
@@ -50,15 +50,15 @@ def train_model(config_path: Text) -> None:
     joblib.dump(model, models_path)
 
 
-    with Live() as live:
-        live.log_artifact(
-            str(models_path),
-            type="model",
-            name="penguins_classifier",
-            desc="This is a penguins classifier.",
-            labels=["cv", "classification"]
-                    #, params.train.arch],
-        )
+    #with Live() as live:
+    #    live.log_artifact(
+    #        str(models_path),
+    #        type="model",
+    #        name="penguins_classifier",
+    #        desc="This is a penguins classifier.",
+    #        labels=["cv", "classification"]
+    #                #, params.train.arch],
+    #    )
 
 
 if __name__ == '__main__':
