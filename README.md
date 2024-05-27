@@ -3,7 +3,7 @@ Proyecto ML-Ops. Desarrollo y automatización de un problema de regresión
 
 ***Autor:** Alejandra Elizabeth Moreno Morales*
 
-**Objectivo:**
+**Objetivo:**
 Desarrollar, implementar y automatizar un modelo de aprendizaje automático usando el conjunto de datos: 'Real-time Election Results: Portugal 2019'.
 
 **Acerca del Dataset:**
