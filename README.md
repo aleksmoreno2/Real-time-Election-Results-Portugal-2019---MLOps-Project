@@ -71,62 +71,110 @@ Con el fin de evaluar el rendimiento de los modelos de regresión lineal y deter
 
 ## GESTIÓN DEL VERSIONAMIENTO DE DATOS Y MODELOS [DVC] [GIT]
 1.	Instalación de paquetes
-pip install dvc 
+```
+pip install dvc
 pip boto3 dvc[all] dvc[s3]
+```
 2.	Inicializar DVC en la ubicación del proyecto
+```
 dvc init
+```
+```
 git init
+```
 3.	Consultar estatus de cambios
+```
 dvc status
+```
+```
 git status
+```
 4.	Agregar las carpetas o archivos  a los que se le dará seguimiento
+```
 dvc add [carpeta/archivo]
+```
+```
 git add [carpeta/archivo
+```
 5.	Realizar commit de los cambios realizados
+```
 git commit -m “[mensaje]”
+```
 6.	Actualizar los cambios en el repositorio
-dvc push
+```dvc push
+```
+```
 git push origin master
+```
 7.	Considerar el uso de los siguientes comandos para cambiar entre las diferentes versiones de los datos
+```
 dvc checkout
+```
+```
 git checkout
+```
 
 
 ## GESTIÓN DEL ALMACENAMIENTO REMOTO [DVC] [BUCKET S3]
 
-	**Opcion 1. Actualizar archivo de configuración del proyecto**
+**Opcion 1. Actualizar archivo de configuración del proyecto**
 1.	Agregar el almacenamiento remoto
+```
 dvc remote add -d remote [s3://…/]
+```
 2.	Agregar credenciales del servicio de almacenamiento S3
+```
 dvc remote modify remote access_key_id [AWS_ACCESS_KEY_ID]
 dvc remote modify remote secret_access_key [AWS_SECRET_ACCESS_KEY]
+```
 3.	Actualizar los cambios
+```
 dvc push
+```
+```
 git push origin master
+```
 
 **Opción 2. Configuración de AWS con aws cli**
 1.	Asegurarse de tener instalado el paquete
+```
 pip install awscli
+```
 2.	En la terminal, ingresar
+```
 aws configure
+```
 3.	Actualizar los siguientes datos: Access key ID, Secret access key, AWS Region and Output format.
+```
 $ aws configure 
 AWS Access Key ID [None]: [EXAMPLE]
 AWS Secret Access Key [None]: [EXAMPLE/EXAMPLE] 
 Default region name [None]: [EXAMPLE]
 Default output format [None]: [EXAMPLE]
+```
 4.	Agregar credenciales del servicio de almacenamiento S3
+```
 dvc remote modify remote credentialpath ~/.aws/credentials
+```
 5.	Actualizar los cambios
+```
 dvc push
+```
+```
 git push origin master
+```
 
 
 **Obtención de los datos y modelos**
 Habiendo clonado el repositorio, instalado los paquetes de requerimiento y reemplazar las credenciales del almacenamiento de S3.
 Ejecutar el comando:
+```
 dvc pull
+```
 
-
-
+## Referencias
+* https://medium.com/analytics-vidhya/versioning-data-and-models-in-ml-projects-using-dvc-and-aws-s3-286e664a7209
+* https://medium.com/analytics-vidhya/docker-volumes-with-dvc-for-versioning-data-and-models-for-ml-projects-4885935db3ec
+* https://abdulsamodazeez.com/optimizing-machine-learning-workflows-containerization-versioning-with-dvc-and-cicd-automation#heading-resources
+* https://dagshub.com/blog/ci-cd-for-machine-learning-test-and-and-deploy-your-ml-model-with-github-actions/
 
