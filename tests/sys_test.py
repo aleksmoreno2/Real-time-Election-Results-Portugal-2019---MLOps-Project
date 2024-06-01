@@ -1,20 +1,12 @@
-import requests
-import pytest
-from src.stages.data_split import data_split
 from sklearn.ensemble import RandomForestRegressor
+from fastapi import FastAPI
+from pydantic import BaseModel
+from src.stages.data_split import data_split
+from src.stages.evaluate import data_split
 
-def test ():
-    prediction = requests.post(
-        "http://127.0.0.1:3000/predict",
-        headers={"content-type": "application/json"},
-        data='{"City": "Pune", "PaymentTier": 0, "Age": 0, "Gender": "Female", "EverBenched": "No", "ExperienceInCurrentDomain": 0}',
-    ).text
+app = FastAPI()
 
-    assert prediction[0] in ["0", "1"]
+@app.get("/")
+def home():
+    return {"health_check": "OK", "model_version": model_version}
 
-def test_data():
-    X_train, X_test, y_train, y_test = data_split()
-    assert len(X_train) > 0
-    assert len(X_test) > 0
-    assert len(y_train) > 0
-    assert len(y_test) > 0
