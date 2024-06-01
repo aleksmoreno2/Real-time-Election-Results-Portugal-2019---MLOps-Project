@@ -55,7 +55,9 @@ El conjunto de fenómenos que rodean e influyen en los resultados electores son 
 La disposición de los datos,tanto historico como en tiempo real, da la oportunidad de crear un modelo que explique este fenómeno por lo que elaborar una modelo ML-Ops que permita automatizar el ciclo de vida del modelo que permita entrenar, desplegar y retroalimentar el mismo será decisivo para extender predicciones que se acoplen al comportamiento dinamico del evento.
 
 ## ARQUITECTURA DEL MODELO ML-OPS
-![MLOPS flow](https://github.com/aleksmoreno2/Real-time-Election-Results-Portugal-2019/assets/91718364/ea48238e-9590-48d3-8b0a-1aa0ca2a90b8)
+![MLOPS flow v2](https://github.com/aleksmoreno2/Real-time-Election-Results-Portugal-2019---MLOps-Project/assets/91718364/47aa1b63-d5de-487c-96ff-d0159490556f)
+
+
 
 ## MODELO DE PREDICCIÓN
 Como parte de esta primera fase de desarrollo del proyecto se evaluarán los siguientes algoritmos:
