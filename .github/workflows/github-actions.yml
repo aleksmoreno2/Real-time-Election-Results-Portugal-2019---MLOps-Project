@@ -1,18 +1,101 @@
-name: Docker Image CI
+name: CI-CD Pipeline
 
 on:
   push:
     branches: [ "main" ]
-  pull_request:
-    branches: [ "main" ]
 
 jobs:
 
+  sys_test:
+      runs-on: ubuntu-latest
+      
+      steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: System test
+        run: python sys_test.py
+
   build:
+      needs: sys_test
+      runs-on: ubuntu-latest
 
-    runs-on: ubuntu-latest
+      steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
 
-    steps:
-    - uses: actions/checkout@v4
-    - name: Build the Docker image
-      run: docker build . --file Dockerfile --tag my-image-name:$(date +%s)
+      - name: Build the Docker image
+        run: docker build . --file Dockerfile --tag my-image-name:$(date +%s)
+
+  deploy:
+      needs: build
+      runs-on: ubuntu-latest
+      
+      steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v2
+        with:
+          context: .
+          push: true
+          tags: myapp:latest
+
+      - name: #Deploy to production
+        uses: '#azure/webapps-deploy@v2'
+        with:
+          app-name: #myapp
+          slot-name: #production
+          images: #myapp:latest
+  
+  data_prepare:
+      runs-on: ubuntu-latest
+        
+      steps:
+        - name: Checkout code
+          uses: actions/checkout@v2
+
+        - name: Prepare data
+          run: python src/stages/data_prepare.py
+        
+  featurize:
+      runs-on: ubuntu-latest
+        
+      steps:
+        - name: Checkout code
+          uses: actions/checkout@v2
+        
+        - name: Featurize
+          run: python src/stages/featurize.py
+
+  data_split:
+      runs-on: ubuntu-latest
+              
+      steps:
+        - name: Checkout code
+          uses: actions/checkout@v2
+              
+        - name: Split data
+          run: python src/stages/data_split.py
+
+  train:
+      runs-on: ubuntu-latest
+                    
+      steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+                    
+      - name: Train model
+        run: python src/stages/train.py
+  
+  evaluate:
+      runs-on: ubuntu-latest
+                        
+      steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+                        
+      - name: Train model
+        run: python src/stages/evaluate.py
+        
