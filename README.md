@@ -103,7 +103,8 @@ git add [carpeta/archivo
 git commit -m “[mensaje]”
 ```
 6.	Actualizar los cambios en el repositorio
-```dvc push
+```
+dvc push
 ```
 ```
 git push origin master
