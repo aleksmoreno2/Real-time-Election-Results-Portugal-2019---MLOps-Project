@@ -98,4 +98,33 @@ jobs:
                         
       - name: Train model
         run: python src/stages/evaluate.py
+
+  test_model:
+      name: Test model
+      runs-on: ubuntu-latest
+      
+      steps:
+      - name: Checkout 
+        uses: actions/checkout@v2
+      
+      - name: Environment setup
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.10
+          cache: pip
+
+      - name: Install packages
+        run: pip install -r requirements.txt
+      
+      - name: Pull data
+        run: |
+          dvc remote modify origin --local auth basic
+          dvc remote modify origin --local user ${{ secrets.DAGSHUB_USERNAME }}
+          dvc remote modify origin --local password ${{ secrets.DAGSHUB_TOKEN }}
+          dvc pull -r origin train_model
+      
+      - name: Run training tests
+        run: pytest training/tests
+      
+
         
